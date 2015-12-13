@@ -84,6 +84,17 @@ subprojects {
         it.classpath = sourceSets.main.compileClasspath
     }
 
+
+    configurations.all {
+        // Stop comsat-jax-rs-client pulling this in as it then depends on a newer/conflicting version
+        // of jetty than karyon-admin.
+        exclude group: 'org.glassfish.jersey.connectors', module:'jersey-jetty-connector'
+
+        // Exclude old v2.5 of servlet-api.
+        exclude group:'javax.servlet', module:'servlet-api'
+        exclude group:'org.mortbay.jetty', module:'servlet-api'
+    }
+
     dependencies {
         ext.versions_guice = "4.0"
 
@@ -94,5 +105,7 @@ subprojects {
         compile(group: 'com.google.inject.extensions', name: 'guice-assistedinject', version: "${versions_guice}")
         compile(group: 'com.google.inject.extensions', name: 'guice-servlet', version: "${versions_guice}")
         compile(group: 'com.google.inject.extensions', name: 'guice-throwingproviders', version: "${versions_guice}")
+
+        compile group: 'co.paralleluniverse', name: 'quasar-core', version: 'latest.release'
     }
 }

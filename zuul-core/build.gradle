@@ -1,5 +1,12 @@
 apply plugin: 'groovy'
 
+configurations.all {
+
+    // Stop comsat-jax-rs-client pulling this in as it then depends on a newer/conflicting version
+    // of jetty than karyon-admin.
+    exclude group: 'org.glassfish.jersey.connectors', module:'jersey-jetty-connector'
+}
+
 dependencies {
 
     compile 'commons-io:commons-io:2.4'
@@ -16,8 +23,12 @@ dependencies {
     compile 'com.netflix.hystrix:hystrix-core:1.4.+'
     compile 'com.netflix.ribbon:ribbon-core:2.0.0'
     compile 'com.netflix.ribbon:ribbon-httpclient:2.0.0'
+    compile 'com.netflix.ribbon:ribbon-eureka:2.0.0'
     compile 'com.netflix.eureka:eureka-client:1.3.3'
     compile "io.reactivex:rxjava-string:1.0.+"
+
+    compile group: 'co.paralleluniverse', name: 'comsat-httpclient', version: 'latest.release'
+    compile group: 'co.paralleluniverse', name: 'comsat-jax-rs-client', version: 'latest.release'
 
 
     // TEMP - ensure using same version as zuul-netty.

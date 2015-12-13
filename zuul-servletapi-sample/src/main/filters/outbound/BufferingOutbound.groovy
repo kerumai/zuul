@@ -35,6 +35,6 @@ class BufferingOutbound extends MessageBodyBufferFilter
 
     @Override
     FilterType filterType() {
-        return FilterType.INBOUND
+        return FilterType.OUTBOUND
     }
 }

@@ -1,6 +1,18 @@
 
+configurations.all {
+
+    // Exclude old v2.5 of servlet-api.
+    exclude group:'javax.servlet', module:'servlet-api'
+    exclude group:'org.mortbay.jetty', module:'servlet-api'
+}
+
 dependencies {
     compile project(':zuul-core')
+
+    provided "javax.servlet:javax.servlet-api:3.0.+"
+
+    compile group: 'co.paralleluniverse', name: 'comsat-servlet', version: 'latest.release'
+    compile group: 'co.paralleluniverse', name: 'comsat-jersey-server', version: 'latest.release'
 
     compile "junit:junit:latest.release"
     compile 'org.mockito:mockito-all:1.9.+'
