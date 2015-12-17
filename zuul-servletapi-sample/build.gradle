@@ -20,6 +20,7 @@ dependencies {
     compile "com.netflix.karyon:karyon-admin-web:${versions_karyon}"
     compile "com.netflix.karyon:karyon-extensions:${versions_karyon}"
     compile "com.netflix.blitz4j:blitz4j:1.35"
+    compile "com.netflix.astyanax:astyanax-cassandra:${versions_astyanax}"
     compile "com.sun.jersey:jersey-core:${versions_jersey}"
     compile "com.sun.jersey:jersey-server:${versions_jersey}"
     compile "com.sun.jersey:jersey-client:${versions_jersey}"

@@ -2,6 +2,8 @@
 dependencies {
     compile project(':zuul-core')
 
+    provided "javax.servlet:javax.servlet-api:3.1.+"
+
     compile "junit:junit:latest.release"
     compile 'org.mockito:mockito-all:1.9.+'
 }

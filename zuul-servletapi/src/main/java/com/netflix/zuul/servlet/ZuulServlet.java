@@ -38,10 +38,7 @@ import rx.Observable;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletInputStream;
-import javax.servlet.ServletOutputStream;
+import javax.servlet.*;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -227,7 +224,8 @@ public class ZuulServlet extends HttpServlet {
         private byte[] data;
         private int idx = 0;
 
-        public ServletInputStreamWrapper(byte[] data) {
+        public ServletInputStreamWrapper(byte[] data)
+        {
             if(data == null) {
                 data = new byte[0];
             }
@@ -235,8 +233,28 @@ public class ZuulServlet extends HttpServlet {
             this.data = data;
         }
 
-        public int read() throws IOException {
+        @Override
+        public int read() throws IOException
+        {
             return this.idx == this.data.length?-1:this.data[this.idx++] & 255;
+        }
+
+        @Override
+        public void setReadListener(ReadListener listener)
+        {
+            // Noop.
+        }
+
+        @Override
+        public boolean isFinished()
+        {
+            return false;
+        }
+
+        @Override
+        public boolean isReady()
+        {
+            return false;
         }
     }
 }

@@ -264,12 +264,16 @@ public class JettySampleStartServer
 
             // SSL Context Factory for HTTPS and HTTP/2
             SslContextFactory sslContextFactory = new SslContextFactory();
-            sslContextFactory.setKeyStorePath("/Users/michaels/Projects/oss-zuul-1/zuul-jetty-sample/conf/keystore.jks");
+            sslContextFactory.setKeyStorePath("/Users/michaels/Projects/kerumai/zuul/zuul-jetty-sample/conf/keystore.jks");
             sslContextFactory.setKeyStorePassword("netflix");
             sslContextFactory.setKeyManagerPassword("netflix");
 
             sslContextFactory.setCipherComparator(new HTTP2Cipher.CipherComparator());
             sslContextFactory.setUseCipherSuitesOrder(true);
+
+            // NOTE - Adding this cipher as allowed, because this is what Chrome is negotiating, but is otherwise blacklisted by jetty when used in conjunction with TLSv1.2.
+            // See https://dev.eclipse.org/mhonarc/lists/jetty-dev/msg02377.html for some context.
+            sslContextFactory.setIncludeCipherSuites("TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256");
 
             // HTTPS Configuration
             HttpConfiguration https_config = new HttpConfiguration(http_config);
@@ -279,11 +283,13 @@ public class JettySampleStartServer
             HTTP2ServerConnectionFactory h2 = new HTTP2ServerConnectionFactory(https_config);
 
             NegotiatingServerConnectionFactory.checkProtocolNegotiationAvailable();
+
+            String defaultProtocol = "h2";
             ALPNServerConnectionFactory alpn = new ALPNServerConnectionFactory(
-                    http.getDefaultProtocol(),
-                    h2.getProtocol()
+                    defaultProtocol,
+                    "h2", "h2-17", "h2-16", "h2-15", "h2-14", "http/1.1", "http/1.0"
             );
-            alpn.setDefaultProtocol(http.getDefaultProtocol());
+            alpn.setDefaultProtocol(defaultProtocol);
 
             // SSL Connection Factory
             SslConnectionFactory ssl = new SslConnectionFactory(sslContextFactory,alpn.getProtocol());

@@ -4,6 +4,13 @@ dependencies {
     compile project(':zuul-core')
     compile project(':zuul-servletapi')
 
+    compile "com.netflix.archaius:archaius-core:${versions_archauis}"
+    compile "com.netflix.governator:governator:${versions_governator}"
+    compile "com.netflix.governator:governator-archaius:${versions_governator}"
+
+    compile group: 'com.netflix.blitz4j', name:'blitz4j', version:'latest.release'
+    compile "javax.servlet:javax.servlet-api:3.1.+"
+
     compile(group: 'org.eclipse.jetty.aggregate', name: 'jetty-all', version: "${versions_jetty9}")
     compile(group: 'org.eclipse.jetty', name: 'jetty-alpn-server', version: "${versions_jetty9}")
     compile(group: 'org.eclipse.jetty', name: 'jetty-alpn-client', version: "${versions_jetty9}")
